@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ar"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق SAM </title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+       body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 100px auto;
+            padding: 200px;
+            border: 3px solid #8a0a0a;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: blue;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #6b0c0c;
+            padding: 20px 60px;
+            text-align: right;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 2px -2px rgb(31, 30, 30);
+        }
+
+        .navbar a, .navbar button {
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin: 0 3px;
+            border-radius: 3px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            background-color: #161414;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+        .navbar a:nth-child(1) {
+            background-color: #bd3719;
+        }
+
+        .navbar button, .navbar a {
+    color: white; /* لون النص */
+    padding: 10px 20px;
+    text-decoration: none;
+    margin: 0 3px;
+    border-radius: 3px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+/* تخصيص ألوان لكل زر */
+#dark-mode-button {
+    background-color: #181817; /* لون أصفر */
+}
+
+#loginLogoutButton {
+    background-color: #d818d8; /* لون أخضر */
+}
+
+#lang-button {
+    background-color: #230c5a; /* لون أزرق */
+}
+
+#contact-link {
+    background-color: #e83e8c; /* لون وردي */
+}
+        .navbar a:nth-child(2) {
+            background-color: #1317f0;
+        }
+
+        .navbar a:nth-child(3) {
+            background-color: #bd1430;
+        }
+
+        .navbar a:nth-child(4) {
+            background-color: #18922c;
+        }
+
+        .navbar a:nth-child(5) {
+            background-color: #8f3a65;
+        }
+
+        .navbar a:nth-child(6) {
+            background-color: #7818c7;
+        }
+
+        .navbar a:hover, .navbar button:hover {
+            background-color: #146fdf;
+            transform: scale(1.1);
+        }
+
+        .container {
+            padding: 120px 20px 20px;
+        }
+
+        .page-content {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .dark-mode {
+            background-color: #1a1b1a;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: #fff;
+            color: black;
+        }
+
+        .color-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .color-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 150px;
+            box-shadow: 0px 8px 16px 0px rgba(156, 76, 76, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+
+        .color-dropdown-content button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin: 5px 0;
+            cursor: pointer;
+            background-color: transparent;
+        }
+
+        .color-dropdown-content button:hover {
+            background-color: #3b393b;
+        }
+
+        .color-dropdown:hover .color-dropdown-content {
+            display: block;
+        }
+
+        .login-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-container button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            background-color: #1066c9fb;
+            color: white;
+        }
+
+        .login-container button:hover {
+            background-color: #2980b9;
+        }
+
+        .login-form {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-form input {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            width: 60%;
+            max-width: 250px;
+            font-size: 16px;
+        }
+
+        .login-form button {
+            padding: 10px 20px;
+            background-color: #0990eb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-form button:hover {
+            background-color: #1588d4;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #ee050538;
+            color: white;
+        }
+
+        .contact-form input, .contact-form textarea {
+            display: block;
+            margin: 10px auto;
+            padding: 8px;
+            width: 80%;
+            max-width: 250px;
+            font-size: 14px;
+        }
+
+        .contact-form button {
+            padding: 10px 20px;
+            background-color: #0d44da;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .contact-form button:hover {
+            background-color: #2980b9;
+        }
+
+        .whatsapp-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #166834;
+            color: white;
+            padding: 15px;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(87, 14, 14, 0.3);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .whatsapp-button:hover {
+            background-color: #1ac2ae;
+        }
+
+        .search-form {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .search-form input {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .search-form button {
+            padding: 10px;
+            background-color: #178fdf;
+            color: rgba(255, 255, 255, 0.671);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .search-form button:hover {
+            background-color: #2980b9;
+        }
+
+        .text-size-control {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .text-size-box {
+            display: inline-block;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 150px;
+            box-shadow: 0 4px 6px rgba(182, 31, 31, 0.1);
+        }
+
+        .text-size-box h2 {
+            font-size: 18px;
+            margin: 0;
+            color: #333;
+        }
+
+        .button-box {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .button-box button {
+            margin: 5px;
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .button-box button:hover {
+            background-color: #2980b9;
+            transform: scale(1.1);
+        }
+
+        .pricing-plan {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .plan {
+            border: 1px solid #ccc;
+            padding: 20px;
+            text-align: center;
+            width: 30%;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .plan h2 {
+            color: #333;
+        }
+
+        #payment-form {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(122, 54, 60, 0.418);
+        }
+
+        #payment-details-form input {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        #payment-details-form button {
+            padding: 10px;
+            background-color: #1e6c91;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #payment-details-form button:hover {
+            background-color: #74212f;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .social-links a img {
+            transition: transform 0.3s;
+        }
+
+        .social-links a img:hover {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+<body class="light-mode">
+<div class="navbar">
+    <button id="lang-button" onclick="changeLang()">تغيير إلى الإنجليزية</button>
+    <a href="#" id="home-link" onclick="showPage('home')">الرئيسية</a>
+    <a href="#" id="profile-link" onclick="showPage('profile')">الملف الشخصي</a>
+    <a href="#" id="pricing-link" onclick="showPage('pricing')">الأسعار</a>
+    <a href="#" id="features-link" onclick="showPage('features')">الميزات</a>
+    <a href="#" id="settings-link" onclick="showPage('settings')">الإعدادات</a>
+    <a href="#" id="contact-link" onclick="showPage('contact')">تواصل معنا</a>
+    <button id="loginLogoutButton" onclick="toggleLogin()">تسجيل الدخول</button>
+    <button id="dark-mode-button" onclick="toggleDarkMode()">الوضع الليلي</button>
+</div>
+</div>
+<div class="container" style="text-align: center; padding: 20px;">
+    <div id="home" class="page-content active">
+      <h1>"مرحبًا بكم" في تطبيق ربط التكامل</h1>
+      <p style="font-weight: bold; font-size: 1.2em; line-height: 1.6;">
+        استمتع بالتطبيق الذي يلبي جميع احتياجاتك التسويقية وزيادة مبيعاتك!
+      </p>
+      <div style="margin-top: 20px;">
+        <iframe
+        src="https://www.tiktok.com/embed/v2/7456121626237717766"
+        width="450"
+        height="600"
+        allow="autoplay; fullscreen"
+        frameborder="0"
+        title="TikTok Video"
+      ></iframe>
+      </div>
+        <!-- روابط وسائل التواصل الاجتماعي -->   
+            <strong>تصفح محتوانا عبر مواقع التواصل الاجتماعي</strong>   
+<div class="social-links" style="text-align: center; margin-top: 20px;">
+    <a href="https://x.com/rabtaltakamol?s=21" target="_blank" title="X - شركة ربط التكامل">
+        <i class="fab fa-twitter fa-2x" style="color: #1DA1F2; margin: 0 10px;"></i>
+    </a>
+    <a href="https://www.instagram.com/rabtaltakamol/" target="_blank" title="Instagram - شركة ربط التكامل">
+        <i class="fab fa-instagram fa-2x" style="color: #C13584; margin: 0 10px;"></i>
+    </a>
+    <a href="https://rabtaltakamol.com.sa/" target="_blank" title="Facebook - شركة ربط التكامل">
+        <i class="fab fa-facebook fa-2x" style="color: #4267B2; margin: 0 10px;"></i>
+    </a>
+    <a href="https://rabtaltakamol.com.sa/" target="_blank" title="Google - شركة ربط التكامل">
+        <i class="fab fa-google fa-2x" style="color: #DB4437; margin: 0 10px;"></i>
+    </a>
+    <a href="https://www.tiktok.com/@rabtaltakamol?_t=8mwdZTxRk7b&_r=1" target="_blank" title="TikTok - شركة ربط التكامل">
+        <i class="fab fa-tiktok fa-2x" style="color: #050505; margin: 0 10px;"></i>
+    </a>
+</div>
+</div>
+<div id="profile" class="page-content" style="font-family: Arial, sans-serif; font-size: 1.5em; line-height: 1.8;">
+    <h1 style="font-size: 2em; font-weight: bold; text-align: center; margin-bottom: 20px;">  !شركة ربط التكامل للخدمات التسويقية!</h1>
+    <p><strong>العنوان:</strong> - جدة- طريق المدينة حي السلامة</p>
+    <p><strong>سنة التأسيس:</strong> 2023</p>
+    <p><strong>نبذة عن الشركة:</strong></p>
+    <p>
+        شركة ربط التكامل هي واحدة من الشركات المتميزة والفريدة في مجال التسويق الإلكتروني. 
+        تأسست بهدف تقديم حلول تسويقية مبتكرة ومتكاملة تناسب مختلف القطاعات وتساعد العملاء 
+        على تحقيق أهدافهم التجارية.
+    </p>
+    <p><strong>ما يميزنا:</strong></p>
+    <ul>
+        <li>فريق عمل مميز ومتكامل يمتلك الخبرة والمهارات اللازمة لخدمة العملاء بكفاءة.</li>
+        <li>استخدام أحدث التقنيات الرقمية لتحقيق أفضل النتائج.</li>
+        <li>التزام كامل بتقديم خدمات عالية الجودة وتعزيز رضا العملاء.</li>
+    </ul>
+    <p><strong>خدماتنا:</strong></p>
+    <ul>
+        <li>التسويق الرقمي: تعزيز تواجد العلامات التجارية على الإنترنت.</li>
+        <li>إدارة الحملات الإعلانية: تصميم وإدارة حملات فعالة تحقق أهداف العملاء.</li>
+        <li>تحليل البيانات: توفير تقارير تحليلية دقيقة لدعم القرارات.</li>
+        <li>إدارة وسائل التواصل الاجتماعي: تعزيز التفاعل وبناء علاقات قوية مع الجمهور.</li>
+        <li>تحسين محركات البحث (SEO): ضمان ظهور العملاء في مقدمة نتائج البحث.</li>
+        <li>تصميم المحتوى التسويقي: إنشاء محتوى مبتكر يعبر عن هوية العلامة التجارية.</li>
+        <li>تصميم المتاجر الالكترونية وادارتها وانشاء المواقع الالكترونية حسب رغبه العملاء </li>
+    </ul>مع تحياتي : <strong>  شركة ربط التكامل </strong></p> 
+
+    <h2 style="font-size: 2em; font-weight: bold; text-align: center; margin-top: 40px;">"فريق العمل "</h2>
+    <div id="team" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 30px; margin-top: 30px;">
+        <div style="text-align: center; padding: 10px; border: 1px solid #e7e0e0; border-radius: 8px;">
+            <img src="https://via.placeholder.com/150" alt="عضو الفريق" style="border-radius: 50%; width: 100px; height: 100px;">
+            <p><strong>  أ/عبدالله البقمي </strong>
+            <p><strong>المدير التنفيذي </strong>  0555600066</p>
+        </div>
+        <div style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            <img src="https://via.placeholder.com/150" alt="عضو الفريق" style="border-radius: 50%; width: 100px; height: 100px;">
+            <p><strong>  أ/بجاد مناحي </strong> 
+            <p><strong>رئيس مجلس الادارة </strong>   </p>
+        </div>
+        <div style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            <img src="https://via.placeholder.com/150" alt="عضو الفريق" style="border-radius: 50%; width: 100px; height: 100px;">
+            <p><strong> احمد مليكة </strong> 
+            <p><strong>مسؤول تسويق رقمي </strong>   </p>
+        </div>
+        <div style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            <img src="https://via.placeholder.com/150" alt="عضو الفريق" style="border-radius: 50%; width: 100px; height: 100px;">
+            <p><strong> ريانه الغامدي </strong> 
+            <p><strong>مصممه محتوي </strong>  </p>
+        </div>
+        <div style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            <img src="https://via.placeholder.com/150" alt="عضو الفريق" style="border-radius: 50%; width: 100px; height: 100px;">
+            <p><strong> غرام عصام رشدي </strong>   
+            <p><strong>كاتبة محتوي </strong>  </p>
+        </div>
+        <div style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            <img src="https://via.placeholder.com/150" alt="عضو الفريق" style="border-radius: 50%; width: 100px; height: 100px;">
+            <p><strong> ليان محمد عبدو </strong>    
+            <p><strong>كاتبة محتوي </strong>  </p>
+        </div>
+        <div style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            <img src="https://via.placeholder.com/150" alt="عضو الفريق" style="border-radius: 50%; width: 100px; height: 100px;">
+            <p><strong> مجاهد </strong> 
+            <p><strong>مطور ويب </strong>  </p>
+        </div>
+        <div style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            <img src="https://via.placeholder.com/150" alt="عضو الفريق" style="border-radius: 50%; width: 100px; height: 100px;">
+            <p><strong>زياد  </strong> 
+            <p><strong>مسؤول وسائل التواصل </strong>   </p>
+        </div>
+        <div style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            <img src="https://via.placeholder.com/150" alt="عضو الفريق" style="border-radius: 50%; width: 100px; height: 100px;">
+            <p><strong>  أ/عمر النهدي </strong> 
+            <p><strong>مسؤول مبيعات </strong>  </p>
+        </div>
+        <div style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            <img src="/images/ahmad.jpg" alt="عضو الفريق" style="border-radius: 50%; width:150px; height: 150px;">
+            <p><strong>إسلام شرف الدين</strong>  
+            <p><strong>محاسب و موارد بشرية </strong> 0563864551 </p>
+        </div>
+    </div>
+</div>
+<div id="pricing" class="page-content">
+    <h1>الأسعار</h1>
+    <p>تفاصيل الأسعار</p>
+
+    <!-- خطط الدفع -->
+    <div class="pricing-plan">
+        <div class="plan" id="plan-basic">
+            <h2>الخطة الأساسية</h2>
+            <p>تفاصيل الخطة الأساسية</p>
+            <p>سعر: 50 ريال شهرياً</p>
+            <button onclick="showPaymentForm('basic')">ادفع الآن</button>
+        </div>
+
+        <div class="plan" id="plan-standard">
+            <h2>الخطة القياسية</h2>
+            <p>تفاصيل الخطة القياسية</p>
+            <p>سعر: 100 ريال شهرياً</p>
+            <button onclick="showPaymentForm('standard')">ادفع الآن</button>
+        </div>
+
+        <div class="plan" id="plan-premium">
+            <h2>الخطة الممتازة</h2>
+            <p>تفاصيل الخطة الممتازة</p>
+            <p>سعر: 150 ريال شهرياً</p>
+            <button onclick="showPaymentForm('premium')">ادفع الآن</button>
+        </div>
+    </div>
+
+    <!-- خانات الدفع -->
+    <div id="payment-form" style="display:none;">
+        <h2>إدخال تفاصيل الدفع</h2>
+        <form id="payment-details-form">
+            <label for="name">الاسم:</label>
+            <input type="text" id="name" name="name" required><br>
+
+            <label for="email">البريد الإلكتروني:</label>
+            <input type="email" id="email" name="email" required><br>
+
+            <label for="credit-card">رقم البطاقة الائتمانية:</label>
+            <input type="text" id="credit-card" name="credit-card" required><br>
+
+            <button type="submit">إتمام الدفع</button>
+        </form>
+    </div>
+</div>
+<div id="features" class="page-content" style="font-family: Arial, sans-serif; font-size: 1.5em; line-height: 1.8;">
+    <h1 style="font-size: 2em; font-weight: bold; text-align: center; margin-bottom: 20px;"> !ماهي ميزات شركتنا التسويقية!</h1>
+    <p><strong>زيادة المبيعات:</strong> تحقيق نمو سريع في مبيعات العملاء من خلال استراتيجيات مخصصة لكل نشاط تجاري.</p>
+    <p><strong>التسويق الرقمي:</strong> توفير حلول تسويقية رقمية متقدمة تشمل الحملات الإلكترونية والإعلانات على الإنترنت.</p>
+    <p><strong>إدارة الحملات الإعلانية:</strong> تصميم وتنفيذ حملات إعلانية مؤثرة تضمن نتائج ملموسة.</p>
+    <p><strong>تحليل البيانات:</strong> استخدام أدوات تحليل متطورة لفهم سلوك العملاء وتحسين الأداء.</p>
+    <p><strong>إدارة وسائل التواصل الاجتماعي:</strong> تعزيز الحضور الرقمي وزيادة التفاعل مع الجمهور.</p>
+    <p><strong>تحسين محركات البحث (SEO):</strong> رفع ترتيب المواقع الإلكترونية في نتائج البحث لضمان وصول أفضل للعملاء.</p>
+    <p><strong>تصميم المحتوى التسويقي:</strong> إنشاء محتوى إبداعي يتناسب مع رؤية العلامة التجارية.</p>
+    <p><strong>إعلانات الفيديو:</strong> إنتاج فيديوهات جذابة تعبر عن خدمات ومنتجات العملاء.</p>
+    <p><strong>التسويق بالمؤثرين:</strong> بناء شراكات مع المؤثرين لتحقيق انتشار أوسع للعلامة التجارية.</p>
+    <p><strong>الإعلانات عبر البريد الإلكتروني:</strong> تصميم حملات بريدية فعالة تصل مباشرة للعملاء المستهدفين.</p>
+    <p><strong>التسويق بالمحتوى:</strong> تطوير مدونات، مقالات، وأدلة تعليمية تزيد من قيمة العلامة التجارية.</p>
+    <p><strong>إدارة السمعة الرقمية:</strong> تحسين صورة العلامة التجارية عبر الإنترنت ومعالجة أي ملاحظات سلبية.</p>
+    <p><strong>تحليل المنافسين:</strong> مراقبة أداء المنافسين وتحديد فرص التحسين والاستفادة.</p>
+</div>
+</div>
+</div>  
+<!-- صفحة الإعدادات -->
+<div id="settings" class="page-content" style="border: 1px solid #ccc; padding: 20px; margin: 10px auto; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); border-radius: 8px; background-color: #f9f9f9; max-width: 800px;">
+    <h1>الإعدادات</h1>
+
+    <!-- ألوان الخلفية -->
+    <div class="color-dropdown">
+        <button>ألوان الخلفية</button>
+        <div class="color-dropdown-content">
+            <button onclick="changeBackgroundColor('#f4f4f4')">فاتح</button>
+            <button onclick="changeBackgroundColor('#333')">داكن</button>
+            <button onclick="changeBackgroundColor('red')">أحمر</button>
+            <button onclick="changeBackgroundColor('blue')">أزرق</button>
+            <button onclick="changeBackgroundColor('green')">أخضر</button>
+            <button onclick="changeBackgroundColor('yellow')">أصفر</button>
+            <button onclick="changeBackgroundColor('purple')">بنفسجي</button>
+            <button onclick="changeBackgroundColor('orange')">برتقالي</button>
+            <button onclick="changeBackgroundColor('pink')">زهري</button>
+            <button onclick="changeBackgroundColor('gray')">رمادي</button>
+            <button onclick="changeBackgroundColor('#FFD700')">ذهبي</button>
+            <button onclick="changeBackgroundColor('brown')">بني</button>
+            <button onclick="changeBackgroundColor('#800080')">مائل للأرجواني</button>
+            <button onclick="changeBackgroundColor('#00FFFF')">سماوي</button>
+            <button onclick="changeBackgroundColor('#FF6347')">طماطم</button>
+            <button onclick="changeBackgroundColor('#8A2BE2')">أزرق بنفسجي</button>
+        </div>
+    </div>
+
+    <!-- التحكم في حجم النص -->
+    <div id="text-size-control">
+        <div id="text-size-box" style="border: 1px solid #ccc; padding: 10px; text-align: center; width: 150px; margin:5px auto; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); border-radius: 8px; background-color: #f9f9f9;">
+            <h2 id="text-size-title" style="margin: 10px 0; font-size: 16px; font-weight: bold;">حجم النص</h2>
+            <div class="button-box">
+                <button onclick="adjustFontSize(-1)" style="background-color: #007bff; color: white; border: none; border-radius: 4px; padding: 5px 10px; cursor: pointer; margin: 5px;">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button onclick="adjustFontSize(1)" style="background-color: #007bff; color: white; border: none; border-radius: 4px; padding: 5px 10px; cursor: pointer; margin: 5px;">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- صفحة تواصل معنا -->
+<div id="contact" class="page-content" style="border: 1px solid #ccc; padding: 20px; margin: 10px auto; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); border-radius: 8px; background-color: #f9f9f9; max-width: 800px;">
+    <h1>تواصل معنا</h1>
+    <form class="contact-form">
+        <input type="text" placeholder="الاسم" required>
+        <input type="email" placeholder="البريد الإلكتروني" required>
+        <textarea placeholder="رسالتك" required></textarea>
+        <button type="submit">إرسال</button>
+    </form>
+</div>
+
+<!-- صفحة تسجيل الدخول -->
+<div id="login" class="page-content" style="border: 1px solid #ccc; padding: 20px; margin: 10px auto; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); border-radius: 8px; background-color: #f9f9f9; max-width: 800px;">
+    <h1>تسجيل الدخول</h1>
+    <div class="login-container">
+        <button onclick="showLoginForm('email')">البريد الإلكتروني</button>
+        <button onclick="showLoginForm('facebook')">فيسبوك</button>
+        <button onclick="showLoginForm('google')">جوجل</button>
+    </div>
+    <div id="email-form" class="login-form" style="display: none;">
+        <input type="email" placeholder="البريد الإلكتروني" required>
+        <input type="password" placeholder="كلمة المرور">
+        <button onclick="validateLogin('البريد الإلكتروني')">تسجيل الدخول</button>
+    </div>
+    <div id="facebook-form" class="login-form" style="display: none;">
+        <input type="email" placeholder="البريد الإلكتروني" required>
+        <input type="password" placeholder="كلمة المرور">
+        <button onclick="validateLogin('فيسبوك')">تسجيل الدخول</button>
+    </div>
+    <div id="google-form" class="login-form" style="display: none;">
+        <input type="email" placeholder="البريد الإلكتروني" required>
+        <input type="password" placeholder="كلمة المرور">
+        <button onclick="validateLogin('جوجل')">تسجيل الدخول</button>
+    </div>
+</div>
+
+<div class="whatsapp-button" onclick="window.open('https://wa.me/966563864551', '_blank')"> دردشة
+    <i class="fab fa-whatsapp"></i>
+    </div>
+  </div>
+<div class="footer">
+<p>حقوق الطبع والنشر محفوظة لدي &copy; 2025 تطبيق SAM </p>
+</div>
+<div class="search-form">
+<form action="https://www.google.com/search" method="get" target="_blank">
+    <input type="text" name="q" placeholder="ابحث في جوجل">
+    <button type="submit">بحث</button>
+  </form> 
+  </div>
+</div>
+<script>
+        function showPaymentForm(planType) {
+        // يمكن تعديل التفاصيل حسب الخطة المختارة
+        alert("تم اختيار الخطة: " + planType);
+
+        // إظهار خانات الدفع
+        document.getElementById('payment-form').style.display = 'block';
+    }
+    function showPage(page) {
+    // إخفاء كل الصفحات
+    document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
+
+    // إظهار الصفحة المحددة
+    const targetPage = document.getElementById(page);
+    if (targetPage) {
+        targetPage.style.display = 'block';
+    }
+}
+    // التبديل بين الوضع الليلي والفاتح
+    function toggleDarkMode() {
+        const body = document.body;
+        if (body.classList.contains('light-mode')) {
+            body.classList.remove('light-mode');
+            body.classList.add('dark-mode');
+        } else {
+            body.classList.remove('dark-mode');
+            body.classList.add('light-mode');
+        }
+}
+
+    function changeBackgroundColor(color) {
+       document.body.style.backgroundColor = color;
+}
+let currentFontSize = 20; // الحجم الافتراضي للنصوص
+
+function adjustFontSize(change) {
+currentFontSize += change;
+if (currentFontSize < 12) currentFontSize = 12; // الحد الأدنى للحجم
+if (currentFontSize > 30) currentFontSize = 30; // الحد الأقصى للحجم
+
+// تحديث حجم النص في الصفحة
+document.body.style.fontSize = `${currentFontSize}px`;
+
+// تحديث حجم النص "حجم النص"
+const title = document.getElementById("text-size-title");
+title.style.fontSize = `${currentFontSize}px`;
+}
+// تغيير اللغة
+let currentLang = 'ar'; // اللغة الافتراضية
+const translations = {
+    ar: {
+        langButton: 'تغيير إلى الإنجليزية',
+        home: 'الرئيسية',
+        profile: 'الملف الشخصي',
+        pricing: 'الأسعار',
+        features: 'الميزات',
+        loginLogout: 'تسجيل الدخول',
+        settings: 'الإعدادات',
+        contact: 'تواصل معنا',
+        darkMode: 'الوضع الليلي',
+    },
+    en: {
+        langButton: 'Change to Arabic',
+        home: 'Home',
+        profile: 'Profile',
+        pricing: 'Pricing',
+        features: 'Features',
+        loginLogout: 'Log In',
+        settings: 'Settings',
+        contact: 'Contact Us',
+        darkMode: 'Dark Mode',
+    }
+};
+function changeLang() {
+    currentLang = currentLang === 'ar' ? 'en' : 'ar';
+
+    document.documentElement.lang = currentLang;
+    document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr'; // تغيير الاتجاه
+
+    document.getElementById('lang-button').textContent = translations[currentLang].langButton;
+    document.getElementById('home-link').textContent = translations[currentLang].home;
+    document.getElementById('profile-link').textContent = translations[currentLang].profile;
+    document.getElementById('pricing-link').textContent = translations[currentLang].pricing;
+    document.getElementById('features-link').textContent = translations[currentLang].features;
+    document.getElementById('settings-link').textContent = translations[currentLang].settings;
+    document.getElementById('contact-link').textContent = translations[currentLang].contact;
+    document.getElementById('loginLogoutButton').textContent = translations[currentLang].loginLogout;
+    document.getElementById('dark-mode-button').textContent = translations[currentLang].darkMode;
+
+    // تغيير الصفحة الأولى عند تغيير اللغة
+    showPage('home'); // تأكد من أن الصفحة الرئيسية تظهر عند تغيير ال
+}
+
+let isAuthenticated = false; // لتحديد حالة تسجيل الدخول
+    function validateLogin(type) {
+        let email = '';
+        let password = '';
+        if (type === 'البريد الإلكتروني') {
+            email = document.querySelector('#email-form input[type="email"]').value;
+            password = document.querySelector('#email-form input[type="password"]').value;
+        } else if (type === 'فيسبوك') {
+            email = document.querySelector('#facebook-form input[type="email"]').value;
+            password = document.querySelector('#facebook-form input[type="password"]').value;
+        } else if (type === 'جوجل') {
+            email = document.querySelector('#google-form input[type="email"]').value;
+            password = document.querySelector('#google-form input[type="password"]').value;
+        }
+
+        if (!email.includes('@')) {
+            alert('الرجاء إدخال بريد إلكتروني صالح مع علامة @');
+            return;
+        }
+        const passwordRegex = /[A-Z]/;
+        const passwordSymbol = /[@]/;
+
+        if (!passwordRegex.test(password) || !passwordSymbol.test(password)) {
+            alert('الرجاء إدخال كلمة مرور تحتوي على حرف كبير وعلامة @');
+            return;
+        }
+        
+        isAuthenticated = true; // تم تسجيل الدخول بنجاح
+        alert(`تم تسجيل الدخول بنجاح عبر ${type}!`);
+
+        document.getElementById('loginLogoutButton').textContent = 'تسجيل الخروج';
+        showPage('home'); // إظهار الصفحة الرئيسية بعد تسجيل الدخول
+        hideLoginForms(); // إخفاء نماذج تسجيل الدخول
+    }
+
+    function hideLoginForms() {
+        document.querySelectorAll('.login-form').forEach(form => {
+            form.style.display = 'none';
+        });
+    }
+
+    function showLoginForm(type) {
+        hideLoginForms(); // إخفاء كل النماذج أولاً
+        const form = document.getElementById(`${type}-form`);
+
+        if (form) form.style.display = 'block';
+    }
+
+    function toggleLogin() {
+        if (isAuthenticated) {
+            isAuthenticated = false;
+            alert('تم تسجيل الخروج بنجاح!');
+            document.getElementById('loginLogoutButton').textContent = 'تسجيل الدخول';
+            showPage('login'); // إعادة المستخدم إلى صفحة تسجيل الدخول
+        } else {
+            showPage('login');
+        }
+    }
+
+    function showPage(pageId) {
+        document.querySelectorAll('.page-content').forEach(page => {
+            page.style.display = 'none';
+        });
+        if (isAuthenticated || pageId === 'login') {
+            const page = document.getElementById(pageId);
+            if (page) page.style.display = 'block';
+        } else {
+            alert('يرجى تسجيل الدخول للوصول إلى هذه الصفحة!');
+            showPage('login'); // إعادة التوجيه إلى صفحة تسجيل الدخول
+        } 
+        // منع ظهور صفحة الإعدادات عند البداية
+document.addEventListener('DOMContentLoaded', () => {
+    showPage('home'); // الصفحة الرئيسية عند التحميل
+    });
+    }
+</script>
+</body>
+</html>
